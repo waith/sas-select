@@ -1,0 +1,5 @@
+flask
+flask_bootstrap
+python-dotenv
+pandas
+xlrd

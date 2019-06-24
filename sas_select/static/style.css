@@ -1,0 +1,103 @@
+table { border-left: 1px solid black; border-top: 1px solid black;}
+td,th {text-align: left; border-bottom: 1px solid black; border-right: 1px solid black; padding: 3px 5px;}
+th {background-color:#eeeeee;}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    padding: 5px 50px;
+}
+
+body, h1, h2, h3 {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a, .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
+  color: #aec251;
+}
+
+a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {
+  color: #687430;
+}
+
+.alert-info {
+    width: 50%;
+    margin: auto;
+    color: #687430;
+    background-color: #e6ecca;
+    border-color: #aec251;
+}
+
+.btn-default {
+    border-color: #aec251;
+    color: #aec251;
+}
+
+.btn-default:hover {
+    background-color: #aec251;
+}
+
+.content-section {
+    border-top: 1px solid #e7e7e7;
+}
+
+.footer, .push {
+  clear: both;
+  height: 4em;
+}
+
+.topnav {
+    font-size: 14px;
+}
+
+form { background-color: #eeeeee; padding:10px;}
+
+
+/* data styles */
+.age, .year, .count {
+    text-align: center;
+}
+
+.date {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.decimal {
+    padding-right: 2em;
+    text-align: right;
+}
+
+.location {
+    text-align: center;
+}
+
+/* nvaigation styles */
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ccc;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: blue;
+    text-align: center;
+    padding: 5px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #999;
+}
+
+nav.footer {
+    margin: 10px 0px;
+}

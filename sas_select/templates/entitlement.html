@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>{{person.vc_common_name}} {{person.vc_surname}}</h2>
+<h4>Full Name</h4>
+<div>{{person.vc_prenominal}} {{person.vc_given_names}} {{person.vc_surname}} {{person.vc_postnominal}}</div>
+<h4>Life</h4>
+{% if person.date_birth %}
+    <div>Born {{person.date_birth|date_format}} {{person.vc_birth_place}}</div>
+{% endif %}
+{% if person.date_death %}
+    <div>Died {{person.date_death|date_format}} age {{person.age_death}}</div>
+{% endif %}
+{% if ministries %}
+    <h3>Ministries</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Ministry</th>
+            <th>Date start</th>
+            <th>Date end</th>
+            <th>State represented</th>
+            <th>Party</th>
+        </tr>
+        {% for ministry in ministries %}
+            <tr>
+                <td>{{person.vc_common_name}} {{person.vc_surname}}</td>
+                <td>{{ministry.vc_ministry}}</td>
+                <td class="date">{{ministry.date_start|date_format}}</td>
+                <td class="date">{{ministry.date_end|date_format}}</td>
+                <td>{{ministry.vc_state_represent}}</td>
+                <td>{{ministry.vc_party}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% if recreations %}
+    <h3>Recreations</h3>
+    {% for recreation in recreations %}
+        <div>{{recreation.vc_recreation}}</div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

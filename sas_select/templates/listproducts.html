@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block page_content %}
+    <form method="post">
+        <label for="CompanyCode">Company Code</label>
+        <input name="CompanyCode" id="CompanyCode" value="{{ frm.CompanyCode}}">
+        <label for="BrandName">Brand Name</label>
+        <input name="BrandName" id="BrandName" value="{{ frm.BrandName}}"  >
+        <input type="submit" value="search">
+    </form>
+    {% if products %}
+        <table>
+            <tr>
+                <th>Group ID</th>
+                <th>SAS Code</th>
+                <th>Company Code</th>
+                <th>Brand Name</th>
+                <th>Product Description</th>
+                <th>Pack Size</th>
+                <th>Maximum Qty (Medicare Entitlement)</th>
+                <th>Pack Price</th>
+                <th>Pack Premium</th>
+            </tr>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.GroupID }}</td>
+                    <td>{{ product.SASCode }}</td>
+                    <td>{{ product.CompanyCode }}</td>
+                    <td>{{ product.BrandName}}</td>
+                    <td>{{ product.PackSize}}</td>
+                    <td>{{ product.MaximumQty}}</td>
+                    <td>{{ product.PackPrice}}</td>
+                    <td>{{ product.PackPremium}}</td>
+                    <td><a href="{{ url_for('view_product',id_product=product.id) }}">view</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

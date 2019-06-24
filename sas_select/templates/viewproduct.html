@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block page_content %}
+    {% if product %}
+        <table>
+            <tr>
+                <th>Group ID</th>
+                <th>SAS Code</th>
+                <th>Company Code</th>
+                <th>Brand Name</th>
+                <th>Product Description</th>
+                <th>Pack Size</th>
+                <th>Maximum Qty (Medicare Entitlement)</th>
+                <th>Pack Price</th>
+                <th>Pack Premium</th>
+                <th>Entitlement</th>
+            </tr>
+                <tr>
+                    <td>{{ product.GroupID }}</td>
+                    <td>{{ product.SASCode }}</td>
+                    <td>{{ product.CompanyCode }}</td>
+                    <td>{{ product.BrandName}}</td>
+                    <td>{{ product.ProductDescription}}</td>
+                    <td>{{ product.PackSize}}</td>
+                    <td>{{ product.MaximumQty}}</td>
+                    <td>{{ product.PackPrice}}</td>
+                    <td>{{ product.PackPremium}}</td>
+                    <td>{{pack_entitlement}}</td>
+                </tr>
+        </table>
+    {% endif %}
+{% endblock %}
