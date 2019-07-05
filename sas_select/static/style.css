@@ -101,3 +101,10 @@ nav li a:hover {
 nav.footer {
     margin: 10px 0px;
 }
+
+footer {
+    margin-top: 5em;
+    border-top: 1px solid gray;
+    color: gray;
+    font-size: 0.90em;
+}

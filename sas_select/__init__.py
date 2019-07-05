@@ -2,8 +2,8 @@ import os
 
 from flask import Flask, render_template, abort, request
 from flask_bootstrap import Bootstrap
-from datetime import date
 from . import db
+from . import version
 
 
 def create_app(test_config=None):
@@ -49,10 +49,9 @@ def create_app(test_config=None):
             products = sas_db.execute(sql, {"cc": company_code, "bn": brand_name}).fetchall()
         else:
             products = None
-        return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form)
+        return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form, version=version.VERSION)
 
-
-    def pack_entitlement(packsize,entitlement):
+    def pack_entitlement(packsize, entitlement):
         if "m" in entitlement:
             frequency = "month"
         elif "a" in entitlement:
@@ -70,7 +69,6 @@ def create_app(test_config=None):
                 exception1 += 1
         return "Your medicare entitlement is" + str(exception1) + "pack per" + frequency
 
-
     @app.route('/product/<id_product>')
     def view_product(id_product):
         if not id_product:
@@ -81,8 +79,7 @@ def create_app(test_config=None):
             abort(404)
         qty = pack_entitlement(product["PackSize"], product["MaximumQty"])
         print(qty)
-        return render_template('viewproduct.html', product=product, page_title="View product" , pack_entitlement=qty)
+        return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty, version=version.VERSION)
     db.init_app(app)
-
 
     return app
