@@ -1,9 +1,35 @@
 # excel to sql database
 
-import pandas as pd
 import sqlite3
 
-df = pd.read_excel("sas-schedule-1-april-2019-full.xlsx", skiprows=0)
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import pandas as pd
+import datetime
+
+base_url_str = "https://www.health.gov.au/internet/main/publishing.nsf/Content/"
+page_url_str = "health-stoma-schedule-index.htm"
+
+page = urlopen(base_url_str + page_url_str)
+
+soup = BeautifulSoup(page, features="html.parser")
+
+div_read = soup.find(id='read')
+
+lst_a = div_read.find_all("a")
+if len(lst_a) == 0:
+    raise IOError("Could not find any hyperlinks on SAS Utilisition web page " + base_url_str + page_url_str)
+xl_url_str = None
+for a in lst_a:
+    href = a.get('href')
+    if 'xls' in href:
+        xl_url_str = base_url_str + href
+        break
+
+if xl_url_str is None:
+    raise IOError("Could not find url for xls for any year between 2012 and " + str(datetime.date.today().year))
+
+df = pd.read_excel(xl_url_str, skiprows=0)
 
 db = sqlite3.connect(
     database='db_products.sqlite',

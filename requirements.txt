@@ -3,3 +3,5 @@ flask_bootstrap
 python-dotenv
 pandas
 xlrd
+beautifulsoup4
+
