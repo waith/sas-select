@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sas-select.iml" filepath="$PROJECT_DIR$/.idea/sas-select.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sas_select.iml" filepath="$PROJECT_DIR$/.idea/sas_select.iml" />
     </modules>
   </component>
 </project>

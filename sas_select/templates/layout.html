@@ -1,21 +1,24 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% extends "bootstrap/base.html" %}
-{% block title %}My Python App - {{ page_title }}{% endblock %}
+{% block title %} QLD Stoma Appliance Schedule Selector - {{ page_title }}{% endblock %}
 {% block styles %}
     {{super()}}
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='qsasmallfavicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='qsasmallfavicon.png') }}">
 {% endblock %}
 
 
 {% block content %}
+    <div class="content-section">
+        <img src="//qldstoma.asn.au/wp-content/uploads/2015/10/StomaLogo.png" alt="QLD Stoma Association" class="fusion-logo-1x fusion-standard-logo" width="395" height="134">
+    </div>
+
     <h1>{{ page_title }}</h1>
     {% for message in get_flashed_messages() %}
         <div class=flash>{{ message }}</div>
     {% endfor %}
-    <div class="content-section">
-        {% block page_content %}{% endblock %}
+    <div>{% block page_content %}{% endblock %}
     </div>
-    <footer>Software provided by bpss. Version {{ version }}</footer>
+<footer>Software provided by bpss. Version {{ version }}</footer>
 {% endblock %}
 
