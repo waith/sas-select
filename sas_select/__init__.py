@@ -1,7 +1,8 @@
 import os
 
-from flask import Flask, render_template, abort, request
+from flask import Flask, render_template, abort, request, redirect, url_for
 from flask_bootstrap import Bootstrap
+from . import datasheet
 from . import db
 from . import version
 
@@ -82,4 +83,10 @@ def create_app(test_config=None):
         return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty, version=version.VERSION)
     db.init_app(app)
 
+    @app.route('/init-db')
+    def init_db():
+        datasheet.init_db()
+        return redirect(url_for('view_products'))
+
     return app
+

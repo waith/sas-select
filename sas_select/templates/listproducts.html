@@ -19,6 +19,7 @@
                 <th>Maximum Qty (Medicare Entitlement)</th>
                 <th>Pack Price</th>
                 <th>Pack Premium</th>
+                <th></th>
             </tr>
             {% for product in products %}
                 <tr>
@@ -26,6 +27,7 @@
                     <td>{{ product.SASCode }}</td>
                     <td>{{ product.CompanyCode }}</td>
                     <td>{{ product.BrandName}}</td>
+                    <td>{{ product.ProductDescription}}</td>
                     <td>{{ product.PackSize}}</td>
                     <td>{{ product.MaximumQty}}</td>
                     <td>{{ product.PackPrice}}</td>
