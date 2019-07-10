@@ -36,6 +36,6 @@ setup(
     keywords='bpss flask stoma medicare',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     python_requires='>=3',
-    install_requires=['flask_bootstrap', 'pandas', 'xlrd', 'beautifulsoup4'],
+    install_requires=['flask_bootstrap', 'pandas', 'xlrd', 'beautifulsoup4', 'urllib3'],
     include_package_data=True,
 )
