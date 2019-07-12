@@ -34,20 +34,32 @@ def create_app(test_config=None):
     def view_products():
         def sql_search_str(form_search_str):
             if form_search_str is None or len(form_search_str.strip()) == 0:
-                return '%'
+                return ''
             else:
-                return '%' + form_search_str.strip() + '%'
+                return form_search_str.strip()
 
         sas_db = db.get_db()
         if request.method == 'POST':
             company_code = sql_search_str(request.form['CompanyCode'])
             brand_name = sql_search_str(request.form['BrandName'])
 
-            sql = """select *  
+            # Try fetching exact company_code first
+            sql = """select *
                     from tbl_products
-                    where CompanyCode like :cc and BrandName like :bn
+                    where CompanyCode=:cc and BrandName like :bn
                     """
-            products = sas_db.execute(sql, {"cc": company_code, "bn": brand_name}).fetchall()
+
+            products = sas_db.execute(sql, {"cc": company_code, "bn": '%' + brand_name + '%'}).fetchall()
+
+            if not products:  # Can't find exact company_code
+                sql = """select *
+                        from tbl_products
+                        where CompanyCode like :cc and BrandName like :bn
+                        """
+                products = sas_db.execute(sql, {"cc": '%' + company_code + '%', "bn": '%' + brand_name + '%'}).fetchall()
+
+
+
         else:
             products = None
         return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form, version=version.VERSION)
