@@ -32,6 +32,8 @@ To deploy to Ubuntu 18.04 using Apache 2.4 and mod_wsgi
     # get copy of wheel created above from dev pc
     pip install sas_select-0.0.1-py3-none-any.whl        # install sas_select web app into virtual environment 
     mkdir -p ~/venvs/sas-select/var/sas_select-instance  # create a place for database 
+    chmod -R g+w ~/venvs/sas-select/var/sas_select_instance       # allow web server to create database
+    chgrp -R www-data ~/venvs/sas-select/var/sas_select_instance  # allow web server to create database
     # get copy of database from dev pc
     cp db_products.sqlite ~/venvs/sas-select/var/sas_select-instance/   # location of database when running
     
