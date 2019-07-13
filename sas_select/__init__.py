@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, abort, request, redirect, url_for
+from flask import Flask, render_template, abort, request, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from . import datasheet
 from . import db
@@ -43,22 +43,26 @@ def create_app(test_config=None):
             company_code = sql_search_str(request.form['CompanyCode'])
             brand_name = sql_search_str(request.form['BrandName'])
 
-            # Try fetching exact company_code first
-            sql = """select *
-                    from tbl_products
-                    where CompanyCode=:cc and BrandName like :bn
-                    """
-
-            products = sas_db.execute(sql, {"cc": company_code, "bn": '%' + brand_name + '%'}).fetchall()
-
-            if not products:  # Can't find exact company_code
+            if len(company_code) == 0 and len(brand_name) == 0:
+                products = None
+                flash('No search query entered', 'error')
+            else:
+                # Try fetching exact company_code first
                 sql = """select *
                         from tbl_products
-                        where CompanyCode like :cc and BrandName like :bn
+                        where CompanyCode=:cc and BrandName like :bn
+                        limit 20
                         """
-                products = sas_db.execute(sql, {"cc": '%' + company_code + '%', "bn": '%' + brand_name + '%'}).fetchall()
 
+                products = sas_db.execute(sql, {"cc": company_code, "bn": '%' + brand_name + '%'}).fetchall()
 
+                if not products:  # Can't find exact company_code
+                    sql = """select *
+                            from tbl_products
+                            where CompanyCode like :cc and BrandName like :bn
+                            limit 20
+                            """
+                    products = sas_db.execute(sql, {"cc": '%' + company_code + '%', "bn": '%' + brand_name + '%'}).fetchall()
 
         else:
             products = None
@@ -101,4 +105,3 @@ def create_app(test_config=None):
         return redirect(url_for('view_products'))
 
     return app
-
