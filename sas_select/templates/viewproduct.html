@@ -1,31 +1,23 @@
 {% extends "layout.html" %}
 {% block page_content %}
-    {% if product %}
-        <table>
-            <tr>
-                <th>Group ID</th>
-                <th>SAS Code</th>
-                <th>Company Code</th>
-                <th>Brand Name</th>
-                <th>Product Description</th>
-                <th>Pack Size</th>
-                <th>Maximum Qty (Medicare Entitlement)</th>
-                <th>Pack Price</th>
-                <th>Pack Premium</th>
-                <th>Entitlement</th>
-            </tr>
-                <tr>
-                    <td>{{ product.GroupID }}</td>
-                    <td>{{ product.SASCode }}</td>
-                    <td>{{ product.CompanyCode }}</td>
-                    <td>{{ product.BrandName}}</td>
-                    <td>{{ product.ProductDescription}}</td>
-                    <td>{{ product.PackSize}}</td>
-                    <td>{{ product.MaximumQty}}</td>
-                    <td>{{ product.PackPrice}}</td>
-                    <td>{{ product.PackPremium}}</td>
-                    <td>{{pack_entitlement}}</td>
-                </tr>
-        </table>
-    {% endif %}
+<h4>Group ID</h4>
+<p>{{ product.GroupID }}</p>
+<h4>SAS Code</h4>
+<p>{{ product.SASCode }}</p>
+<h4>Company Code</h4>
+<p>{{ product.CompanyCode }}</p>
+<h4>Brand Name</h4>
+<p>{{ product.BrandName }}</p>
+<h4>Product Description</h4>
+<p>{{ product.ProductDescription }}</p>
+<h4>Pack Size</h4>
+<p>{{ product.PackSize }}</p>
+<h4>Maximum Qty (Medicare Entitlement)</h4>
+<p>{{ product.MaximumQty }}</p>
+<h4>Pack Price</h4>
+<p>{{ product.PackPrice }}</p>
+<h4>Pack Premium</h4>
+<p>{{ product.PackPremium }}</p>
+<h4>Entitlement</h4>
+<p>{{ pack_entitlement }}</p>
 {% endblock %}
