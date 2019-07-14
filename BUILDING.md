@@ -30,19 +30,18 @@ To deploy to Ubuntu 18.04 using Apache 2.4 and mod_wsgi
     virtualenv -p python3 venvs/sas-select               # create a python virtual environment
     source ~/venvs/sas-select/bin/activate               # activate the python virtual environment
     # get copy of wheel created above from dev pc
-    pip install sas_select-0.0.1-py3-none-any.whl        # install sas_select web app into virtual environment 
+    pip install sas_select-0.0.8-py3-none-any.whl        # install sas_select web app into virtual environment 
     mkdir -p ~/venvs/sas-select/var/sas_select-instance  # create a place for database 
-    chmod -R g+w ~/venvs/sas-select/var/sas_select_instance       # allow web server to create database
-    chgrp -R www-data ~/venvs/sas-select/var/sas_select_instance  # allow web server to create database
-    # get copy of database from dev pc
-    cp db_products.sqlite ~/venvs/sas-select/var/sas_select-instance/   # location of database when running
+    chmod -R g+w ~/venvs/sas-select/var/sas_select-instance       # allow web server to create database
+    # following line must be done as user with sudo privileges
+    sudo chgrp -R www-data ~flasker/venvs/sas-select/var/sas_select-instance  # allow web server to create database
     
 Create file ~flasker/wsgi-scripts/sas-select.wsgi
 ```
 python_home = '/home/flasker/venvs/sas-select'
 activate_this = python_home + '/bin/activate_this.py'
 with open(activate_this) as file:
-    exec(file, dict(__file__=activate_this))
+    exec(file.read(), dict(__file__=activate_this))
 from sas_select import create_app
 app = create_app({'SECRET_KEY': 'my actual secret key is different'})
 application = app.wsgi_app
