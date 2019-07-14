@@ -4,4 +4,3 @@ python-dotenv
 pandas
 xlrd
 beautifulsoup4
-urllib3
