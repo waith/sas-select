@@ -79,12 +79,12 @@ def create_app(test_config=None):
         packs = int(entitlement[:-1])//packsize
         exception1 = packsize//int(entitlement[:-1])
         if packs > 0:
-            return "Your medicare entitlement is" + str(packs) + "packs per" + frequency
+            return "Your medicare entitlement is " + str(packs) + " packs per " + frequency
         else:
             remainder = packsize % int(entitlement[:-1])
             if remainder > 0:
                 exception1 += 1
-        return "Your medicare entitlement is" + str(exception1) + "pack per" + frequency
+        return "Your medicare entitlement is " + str(exception1) + " packs per " + frequency
 
     @app.route('/product/<id_product>')
     def view_product(id_product):
