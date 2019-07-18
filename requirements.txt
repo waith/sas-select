@@ -4,3 +4,4 @@ python-dotenv
 pandas
 xlrd
 beautifulsoup4
+pytest
