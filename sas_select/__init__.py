@@ -104,4 +104,13 @@ def create_app(test_config=None):
         datasheet.init_db()
         return redirect(url_for('view_products'))
 
+    @app.template_filter()
+    def format_price(price):
+        if price is None:
+            return '-'
+        elif price >= 0:
+            return '${:,.2f}'.format(price)
+        else:
+            return '-${:,.2f}'.format(abs(price))
+
     return app

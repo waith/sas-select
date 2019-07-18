@@ -15,9 +15,9 @@
 <h4>Maximum Qty (Medicare Entitlement)</h4>
 <p>{{ product.MaximumQty }}</p>
 <h4>Pack Price</h4>
-<p>{{ product.PackPrice }}</p>
+<p>{{ product.PackPrice|format_price }}</p>
 <h4>Pack Premium</h4>
-<p>{{ product.PackPremium }}</p>
+<p>{{ product.PackPremium|format_price }}</p>
 <h4>Entitlement</h4>
 <p>{{ pack_entitlement }}</p>
 {% endblock %}
