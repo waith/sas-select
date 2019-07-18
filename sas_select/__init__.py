@@ -68,7 +68,20 @@ def create_app(test_config=None):
             products = None
         return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form, version=version.VERSION)
 
-    def pack_entitlement(packsize, entitlement):
+    def pack_entitlement(product):
+        pack_size = product["PackSize"]
+        entitlement = product["MaximumQty"]
+        company_code = product["CompanyCode"]
+        brand_name = product["BrandName"]
+
+        # dict of special cases
+        special_entitlements = {('28300', 'Omnigon Bbraun Urimed Bag 2L'): {'packs': 0.5, 'frequency': 'month'}}
+        unique_product = (company_code, brand_name)
+        if unique_product in special_entitlements:
+            packs = special_entitlements[unique_product]['packs']
+            frequency = special_entitlements[unique_product]['frequency']
+            return "Your medicare entitlement is {} pack(s) per {}".format(packs, frequency)
+
         if "m" in entitlement:
             frequency = "month"
         elif "a" in entitlement:
@@ -76,25 +89,25 @@ def create_app(test_config=None):
         else:
             return
 
-        packs = int(entitlement[:-1])//packsize
-        exception1 = packsize//int(entitlement[:-1])
+        packs = int(entitlement[:-1]) // pack_size
+        exception1 = pack_size // int(entitlement[:-1])
         if packs > 0:
-            return "Your medicare entitlement is " + str(packs) + " packs per " + frequency
+            return "Your medicare entitlement is {} pack(s) per {}".format(packs, frequency)
         else:
-            remainder = packsize % int(entitlement[:-1])
+            remainder = pack_size % int(entitlement[:-1])
             if remainder > 0:
                 exception1 += 1
-        return "Your medicare entitlement is " + str(exception1) + " packs per " + frequency
+        return "Your medicare entitlement is 1 pack per {} {}s".format(exception1, frequency)
 
     @app.route('/product/<id_product>')
     def view_product(id_product):
         if not id_product:
             abort(404)
-        pm_db = db.get_db()
-        product = pm_db.execute('select * from tbl_products where id=?', (id_product,)).fetchone()
+        sas_db = db.get_db()
+        product = sas_db.execute('select * from tbl_products where id=?', (id_product,)).fetchone()
         if not product:
             abort(404)
-        qty = pack_entitlement(product["PackSize"], product["MaximumQty"])
+        qty = pack_entitlement(product)
         print(qty)
         return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty, version=version.VERSION)
     db.init_app(app)
@@ -103,5 +116,14 @@ def create_app(test_config=None):
     def init_db():
         datasheet.init_db()
         return redirect(url_for('view_products'))
+
+    @app.template_filter()
+    def format_price(price):
+        if price is None:
+            return '-'
+        elif price >= 0:
+            return '${:,.2f}'.format(price)
+        else:
+            return '-${:,.2f}'.format(abs(price))
 
     return app
