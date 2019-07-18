@@ -175,3 +175,5 @@ fabric.properties
 # Project_Default.xml doesn't appear to do anything useful
 .idea/inspectionProfiles/Project_Default.xml
 
+# macOS
+.DS_Store
