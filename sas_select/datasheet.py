@@ -77,5 +77,5 @@ def populate_db_from_df(df):
 def init_db():
     """Read excel file from gov website, check required columns exist, empty and repopulate database"""
 
-    df = pd.read_excel(find_xl_url)
+    df = pd.read_excel(find_xl_url())
     populate_db_from_df(df)
