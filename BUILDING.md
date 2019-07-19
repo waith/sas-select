@@ -1,3 +1,10 @@
+Developer information - Testing
+=====================
+
+To run the tests on the code from the sas-select directory with the correct virtual environment activated
+
+    pytest
+
 Developer information - Building
 =====================
 
@@ -18,7 +25,7 @@ To install from test pypi:
     pip install --index-url https://test.pypi.org/simple/ sas_select==0.0.1
 
 Developer information - Deploying
-============
+=====================
 
 To deploy to Ubuntu 18.04 using Apache 2.4 and mod_wsgi
 

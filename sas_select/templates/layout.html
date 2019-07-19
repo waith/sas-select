@@ -15,7 +15,7 @@
     {% for message in get_flashed_messages() %}
         <div class=flash>{{ message }}</div>
     {% endfor %}
-    <div>{% block page_content %}{% endblock %}
+    <div id="page_content">{% block page_content %}{% endblock %}
     </div>
 <footer>Software provided by bpss. Version {{ version }}</footer>
 {% endblock %}

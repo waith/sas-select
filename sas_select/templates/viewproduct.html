@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block page_content %}
 <h4>Group ID</h4>
-<p>{{ product.GroupID }}</p>
+<p id="group_id">{{ product.GroupID }}</p>
 <h4>SAS Code</h4>
 <p>{{ product.SASCode }}</p>
 <h4>Company Code</h4>
-<p>{{ product.CompanyCode }}</p>
+<p id="company_code">{{ product.CompanyCode }}</p>
 <h4>Brand Name</h4>
 <p>{{ product.BrandName }}</p>
 <h4>Product Description</h4>
@@ -19,5 +19,5 @@
 <h4>Pack Premium</h4>
 <p>{{ product.PackPremium|format_price }}</p>
 <h4>Entitlement</h4>
-<p>{{ pack_entitlement }}</p>
+<p id="pack_entitlement">{{ pack_entitlement }}</p>
 {% endblock %}

@@ -5,8 +5,7 @@ import tempfile
 import pytest
 
 from sas_select import create_app
-from sas_select.db import get_db
-from sas_select.datasheet import empty_tbl_products
+from sas_select.db import get_db, empty_tbl_products
 
 # read in SQL for populating test data
 with open(os.path.join(os.path.dirname(__file__), "data.sql"), "rb") as f:

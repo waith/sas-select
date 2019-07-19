@@ -24,11 +24,15 @@ def close_db(e=None):
         db.close()
 
 
-def init_db():
+def empty_tbl_products():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
+    with current_app.open_resource('schema_tbl_products.sql') as f:
         db.executescript(f.read().decode('utf8'))
+
+
+def init_db():
+    empty_tbl_products()
 
 
 @click.command('init-db')

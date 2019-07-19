@@ -12,6 +12,9 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     Bootstrap(app)
 
+    # Make version available on every template
+    app.add_template_global(version.VERSION, 'version')
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'db_products.sqlite'),    # change db name
@@ -66,7 +69,7 @@ def create_app(test_config=None):
 
         else:
             products = None
-        return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form, version=version.VERSION)
+        return render_template('listproducts.html', products=products, page_title="Products in database", frm=request.form)
 
     def pack_entitlement(product):
         pack_size = product["PackSize"]
@@ -87,6 +90,7 @@ def create_app(test_config=None):
         elif "a" in entitlement:
             frequency = "year"
         else:
+            print("ERROR MISSING MONTH OR YEAR", company_code, brand_name, entitlement, pack_size)
             return
 
         packs = int(entitlement[:-1]) // pack_size
@@ -108,8 +112,8 @@ def create_app(test_config=None):
         if not product:
             abort(404)
         qty = pack_entitlement(product)
-        print(qty)
-        return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty, version=version.VERSION)
+        # print(qty)
+        return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty)
     db.init_app(app)
 
     @app.route('/init-db')
@@ -133,3 +137,4 @@ def create_app(test_config=None):
             return '-${:,.2f}'.format(abs(price))
 
     return app
+
