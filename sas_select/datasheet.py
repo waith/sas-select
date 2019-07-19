@@ -1,12 +1,31 @@
 # excel to sql database
 
-import sqlite3
-
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import pandas as pd
 import datetime
 from . import db
+
+GROUP_ID = 'Group ID'
+SAS_CODE = 'SAS Code'
+COMPANY_CODE = 'Company Code'
+BRAND_NAME = 'Brand Name'
+PRODUCT_DESCRIPTION = 'Product Description'
+PACK_SIZE = 'Pack Size'
+MAXIMUM_QTY = 'Maximum Qty\nMonthly (m)\nAnnual (a)'
+PACK_PRICE = 'Pack Price'
+PACK_PREMIUM = 'Pack Premium'
+
+COLUMN_NAMES = (GROUP_ID,
+                SAS_CODE,
+                COMPANY_CODE,
+                BRAND_NAME,
+                PRODUCT_DESCRIPTION,
+                PACK_SIZE,
+                MAXIMUM_QTY,
+                PACK_PRICE,
+                PACK_PREMIUM,
+                )
 
 
 def init_db():
@@ -32,7 +51,15 @@ def init_db():
     if xl_url_str is None:
         raise IOError("Could not find url for xls for any year between 2012 and " + str(datetime.date.today().year))
 
-    df = pd.read_excel(xl_url_str, skiprows=0)
+    df = pd.read_excel(xl_url_str)
+
+    not_founds = []
+    for expected in COLUMN_NAMES:
+        if expected not in df.columns:
+            not_founds.append(expected)
+
+    if not_founds:
+        raise ValueError("Missing column", not_founds)
 
     sas_db = db.get_db()
 
@@ -58,7 +85,16 @@ def init_db():
     values (?,?,?,?,?,?,?,?,?,?)"""
 
     for index, row in df.iterrows():
-        cursor.execute(sql,(index, row['Group ID'], row['SAS Code'], row['Company Code'], row['Brand Name'], row['Product Description'], row['Pack Size'], row['Maximum Qty\nMonthly (m)\nAnnual (a)'], row['Pack Price'], row['Pack Premium']))
+        cursor.execute(sql, (index,
+                             row[GROUP_ID],
+                             row[SAS_CODE],
+                             row[COMPANY_CODE],
+                             row[BRAND_NAME],
+                             row[PRODUCT_DESCRIPTION],
+                             row[PACK_SIZE],
+                             row[MAXIMUM_QTY],
+                             row[PACK_PRICE],
+                             row[PACK_PREMIUM]))
 
     sas_db.commit()
 

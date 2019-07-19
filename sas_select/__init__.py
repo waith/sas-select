@@ -114,7 +114,13 @@ def create_app(test_config=None):
 
     @app.route('/init-db')
     def init_db():
-        datasheet.init_db()
+        try:
+            datasheet.init_db()
+        except ValueError as err:
+            print(err.args[0], err.args[1])
+            flash(err.args[0], 'error')
+        else:
+            flash('Database updated', 'success')
         return redirect(url_for('view_products'))
 
     @app.template_filter()
