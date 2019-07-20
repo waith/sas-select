@@ -1,2 +1,5 @@
 recursive-include sas_select/templates *
 recursive-include sas_select/static *
+include *.md
+include LICENSE
+include sas_select/*.sql
