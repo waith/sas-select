@@ -14,23 +14,22 @@ def test_empty_search(client):
     assert b'<table>' not in response.data
 
 
-def test_exact_match(client):
-    response = client.post("/", data={'CompanyCode': '1001', 'BrandName': ''})
-    assert response.data.count(b'<tr>') == 2
-
-
-def test_like_match(client):
-    response = client.post("/", data={'CompanyCode': '28300', 'BrandName': ''})
-    assert response.data.count(b'<tr>') == 3
-    response = client.post("/", data={'CompanyCode': '100', 'BrandName': ''})
-    assert response.data.count(b'<tr>') == 7
-
-
-def test_brand_match(client):
-    response = client.post("/", data={'CompanyCode': '28300', 'BrandName': 'Omnigon Bbraun Urimed Bag 2L'})
-    assert response.data.count(b'<tr>') == 2
-    response = client.post("/", data={'CompanyCode': '', 'BrandName': 'Omnigon Bbraun Urimed Bag 2L'})
-    assert response.data.count(b'<tr>') == 2
+@pytest.mark.parametrize(
+    ("company_code", "brand_name", "tpl_sas_codes"),
+    (
+        ('28300', 'Omnigon Bbraun Urimed Bag 2L', ('3951Y',)),  # exact match to company code and brand
+        ('28300', 'Omnigon BBraun Urimed Bag 2L', ('3951Y',)),  # check brand name is case insensitive
+        ('', 'Omnigon Bbraun Urimed Bag 2L', ('3951Y',)),       # search on brand name without company code
+        ('28300', '', ('3951Y', '9912Q')),                      # search on company code returning two products
+        ('100', '', ('3517D', '9874Q', '9874Q', '9874Q', '80184F', '3542K')),  # search on company code for 6 products
+        ('1001', '', ('3517D', )),                              # exact match on company code which is contained within other company codes still returns only exact match
+    )
+)
+def test_matches(client, company_code, brand_name, tpl_sas_codes):
+    response = client.post("/", data={'CompanyCode': company_code, 'BrandName': brand_name})
+    assert response.data.count(b'<tr>') == len(tpl_sas_codes) + 1
+    for sas_code in set(tpl_sas_codes):
+        assert response.data.count(sas_code.encode()) == tpl_sas_codes.count(sas_code)
 
 
 @pytest.mark.parametrize(
