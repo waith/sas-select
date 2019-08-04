@@ -1,15 +1,15 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% extends "bootstrap/base.html" %}
-{% block title %} QLD Stoma Appliance Schedule Selector - {{ page_title }}{% endblock %}
+{% block title %} {{ page_title }} - Stoma Appliance Scheme Selector - Australian Council of Stoma Associations {% endblock %}
 {% block styles %}
     {{super()}}
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='qsasmallfavicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='acsa-favicon.png') }}">
 {% endblock %}
 
 
 {% block content %}
-    <img src="{{url_for('static', filename='StomaLogo.png')}}" alt="QLD Stoma Association">
+    <img src="{{url_for('static', filename='acsa-logo.png')}}" alt="logo">
 
     <h1>{{ page_title }}</h1>
     {% for message in get_flashed_messages() %}
