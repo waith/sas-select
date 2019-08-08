@@ -131,6 +131,8 @@ def create_app(test_config=None):
     def format_price(price):
         if price is None:
             return '-'
+        elif isinstance(price, str):
+            return price
         elif price >= 0:
             return '${:,.2f}'.format(price)
         else:
