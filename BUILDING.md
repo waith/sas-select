@@ -14,15 +14,18 @@ To package python distribution and upload to test pypi from virtual environment 
     rm -R build dist sas_select.egg-info
     python setup.py sdist       # only required for source distribution
     python setup.py bdist_wheel
-    twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
 
 To install from wheel:
 
-    pip install sas_select-0.0.1-py3-none-any.whl
+    pip install sas_select-1.0.0-py3-none-any.whl
+
+To upload to test pypi:
+
+    twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
 
 To install from test pypi:
 
-    pip install --index-url https://test.pypi.org/simple/ sas_select==0.0.1
+    pip install --index-url https://test.pypi.org/simple/ sas_select==1.0.0
 
 Developer information - Deploying
 =====================
@@ -37,7 +40,7 @@ To deploy to Ubuntu 18.04 using Apache 2.4 and mod_wsgi
     virtualenv -p python3 venvs/sas-select               # create a python virtual environment
     source ~/venvs/sas-select/bin/activate               # activate the python virtual environment
     # get copy of wheel created above from dev pc
-    pip install sas_select-0.0.8-py3-none-any.whl        # install sas_select web app into virtual environment 
+    pip install sas_select-1.0.0-py3-none-any.whl        # install sas_select web app into virtual environment 
     export FLASK_APP=sas_select.py
     flask init-db
     chmod -R g+w ~flasker/venvs/sas-select/var/sas_select-instance       # allow web server to create database
@@ -75,6 +78,6 @@ Tell apache web server to use new configuration
     sudo apachectl configtest      # test you typed it in correctly
     sudo systemctl reload apache2  # use new configuration
 
-To fetch data into database from government excel spreadsheet go to the following URL
+To fetch data into database from government excel spreadsheet get URL /fetch-data . For example:
 
-http://sas-select.triptera.com.au/fetch-data
+https://sas-select.triptera.com.au/fetch-data
