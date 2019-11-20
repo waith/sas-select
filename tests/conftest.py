@@ -5,7 +5,7 @@ import tempfile
 import pytest
 
 from sas_select import create_app
-from sas_select.db import get_db, empty_tbl_products
+from sas_select.db import get_db, empty_tbl_products, empty_tbl_data_reading
 
 # read in SQL for populating test data
 with open(os.path.join(os.path.dirname(__file__), "data.sql"), "rb") as f:
@@ -24,6 +24,7 @@ def app():
     # create the database and load test data
     with app.app_context():
         empty_tbl_products()
+        empty_tbl_data_reading()
         get_db().executescript(data_sql)
 
     yield app
