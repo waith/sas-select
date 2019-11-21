@@ -1,9 +1,9 @@
 Developer information - Testing
 =====================
 
-To run the tests on the code from the sas-select directory with the correct virtual environment activated
+To run the tests on the code from the sas-select directory with the correct python 3 virtual environment activated
 
-    pytest
+    python -m pytest
 
 Developer information - Building
 =====================
