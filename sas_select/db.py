@@ -31,8 +31,16 @@ def empty_tbl_products():
         db.executescript(f.read().decode('utf8'))
 
 
+def empty_tbl_data_reading():
+    db = get_db()
+
+    with current_app.open_resource('schema_tbl_data_reading.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+
+
 def init_db():
     empty_tbl_products()
+    empty_tbl_data_reading()
 
 
 @click.command('init-db')

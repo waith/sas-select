@@ -116,25 +116,31 @@ def create_app(test_config=None):
         return render_template('viewproduct.html', product=product, page_title="View product", pack_entitlement=qty)
     db.init_app(app)
 
-    @app.route('/init-db')
-    def init_db():
+    @app.route('/fetch-data')
+    def fetch_data():
         try:
-            datasheet.init_db()
+            message = datasheet.fetch_data()
+            print(message)
+            flash(message, 'success')
         except ValueError as err:
             print(err.args[0], err.args[1])
             flash(err.args[0], 'error')
-        else:
-            flash('Database updated', 'success')
         return redirect(url_for('view_products'))
 
     @app.template_filter()
     def format_price(price):
         if price is None:
             return '-'
+        elif isinstance(price, str):
+            return price
         elif price >= 0:
             return '${:,.2f}'.format(price)
         else:
             return '-${:,.2f}'.format(abs(price))
+
+    @app.context_processor
+    def inject_excel_file_name():
+        return dict(excel=datasheet.find_last_file_name())
 
     return app
 

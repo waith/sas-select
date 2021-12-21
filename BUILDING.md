@@ -1,9 +1,9 @@
 Developer information - Testing
 =====================
 
-To run the tests on the code from the sas-select directory with the correct virtual environment activated
+To run the tests on the code from the sas-select directory with the correct python 3 virtual environment activated
 
-    pytest
+    python -m pytest
 
 Developer information - Building
 =====================
@@ -14,15 +14,18 @@ To package python distribution and upload to test pypi from virtual environment 
     rm -R build dist sas_select.egg-info
     python setup.py sdist       # only required for source distribution
     python setup.py bdist_wheel
-    twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
 
 To install from wheel:
 
-    pip install sas_select-0.0.1-py3-none-any.whl
+    pip install sas_select-1.0.0-py3-none-any.whl
+
+To upload to test pypi:
+
+    twine upload --repository-url https://test.pypi.org/legacy/ dist/*.whl
 
 To install from test pypi:
 
-    pip install --index-url https://test.pypi.org/simple/ sas_select==0.0.1
+    pip install --index-url https://test.pypi.org/simple/ sas_select==1.0.0
 
 Developer information - Deploying
 =====================
@@ -37,11 +40,12 @@ To deploy to Ubuntu 18.04 using Apache 2.4 and mod_wsgi
     virtualenv -p python3 venvs/sas-select               # create a python virtual environment
     source ~/venvs/sas-select/bin/activate               # activate the python virtual environment
     # get copy of wheel created above from dev pc
-    pip install sas_select-0.0.8-py3-none-any.whl        # install sas_select web app into virtual environment 
-    mkdir -p ~/venvs/sas-select/var/sas_select-instance  # create a place for database 
-    chmod -R g+w ~/venvs/sas-select/var/sas_select-instance       # allow web server to create database
+    pip install sas_select-1.0.0-py3-none-any.whl        # install sas_select web app into virtual environment 
+    export FLASK_APP=sas_select.py
+    flask init-db
+    chmod -R g+w ~flasker/venvs/sas-select/var/sas_select-instance       # allow web server to create database
     # following line must be done as user with sudo privileges
-    sudo chgrp -R www-data ~flasker/venvs/sas-select/var/sas_select-instance  # allow web server to create database
+    sudo chgrp -R www-data ~flasker/venvs/sas-select/var/sas_select-instance  # allow web server to fetch data into database
     
 Create file ~flasker/wsgi-scripts/sas-select.wsgi
 ```
@@ -74,4 +78,6 @@ Tell apache web server to use new configuration
     sudo apachectl configtest      # test you typed it in correctly
     sudo systemctl reload apache2  # use new configuration
 
+To fetch data into database from government excel spreadsheet get URL /fetch-data . For example:
 
+https://sas-select.triptera.com.au/fetch-data
